@@ -13,8 +13,8 @@ app.use(cors());
 app.get("/", (req, res) => res.send("Hi! I'm CDN server"));
 
 app.get("/images", async (req, res) => {
-  const { src, width, height, quality, format } = req.query;
-  const fileName = `${src}-${width}px-${height}px.${format}`;
+  const { src, width, height, quality, format, fit } = req.query;
+  const fileName = `${src}-${width}px-${height}px-${fit}.${format}`;
   const imagesPath = path.resolve(__dirname, "public/images");
   const imageStaticPath = path.resolve(__dirname, `public/images/${fileName}`);
   fs.access(imageStaticPath, (notExisted) => {
@@ -29,6 +29,7 @@ app.get("/images", async (req, res) => {
           .resize({
             width: Number(width),
             height: Number(height),
+            fit: fit || "inside",
           })
           .toFormat(format, { quality: Number(quality) })
           .toFile(imageStaticPath, (err, info) => {
