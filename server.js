@@ -12,10 +12,15 @@ app.use(express.static("public"));
 app.use(cors());
 
 app.get("/", (req, res) => {
+  res.send("Hi! I'm CDN image caching");
+});
+
+app.get("/image-list", (req, res) => {
   fs.readdir(path.resolve(__dirname, "public/images"), (err, files) => {
     if (err) {
       return res.status(400).json({ data: [] });
     }
+    res.setHeader("Cache-Control", "max-age=10");
     res.status(200).json({ data: files });
   });
 });
