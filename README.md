@@ -1,8 +1,8 @@
 ## What is this project?
 
-- This project using for create order tracking service.
-- Socket IO - Realtime
-- Link: https://baemin-socket.herokuapp.com/
+- This project using for caching / resize / optimize images.
+- Sharp / Express
+- Link: https://cdn-image-web-marketplace.herokuapp.com
 - Copyright Thai Nguyen Hoang Phat
 
 ## Available scripts
@@ -22,12 +22,13 @@ In the project directory, you can run:
 
 ## Main Stack
 
-- Build socket io realtime app
-
+- Build CDN Images: caching / resize / optimize images.
+- Sharp: https://sharp.pixelplumbing.com/
+- Browser caching: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cachings
 ## Deploy
 
-- [Heroku](https://dashboard.heroku.com/apps/baemin-apis)
+- [Heroku](https://dashboard.heroku.com/apps/cdn-image-web-marketplace)
 
 ## Production
 
-- https://phattnh.github.io/baemin-fe/
+- https://cdn-image-web-marketplace.herokuapp.com
