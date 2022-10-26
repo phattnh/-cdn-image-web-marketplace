@@ -28,7 +28,7 @@ app.get("/image-list", (req, res) => {
 app.get("/images", async (req, res) => {
   const { src, width, height, quality, format, fit } = req.query;
   const imagesPath = path.resolve(__dirname, "public/images");
-  sizeOf(`${imagesPath}/${src}.webp`, (err, dimensions) => {
+  sizeOf(`${imagesPath}/${src}`, (err, dimensions) => {
     if (err) {
       return res.status(400).json({ err, message: "Image src is not valid" });
     }
@@ -41,7 +41,7 @@ app.get("/images", async (req, res) => {
     _width = isNaN(_width) ? dw : _width;
     _height = isNaN(_height) ? dh : _height;
     _quality = isNaN(_quality) ? 100 : _quality;
-    fs.readFile(`${imagesPath}/${src}.webp`, (err, data) => {
+    fs.readFile(`${imagesPath}/${src}`, (err, data) => {
       if (err) {
         return res.status(400).json({ err, message: "Image src is not valid" });
       }
@@ -67,6 +67,11 @@ app.get("/images", async (req, res) => {
     });
   });
   return;
+});
+
+process.on("uncaughtException", (error) => {
+  console.log("Oh my god, something terrible happened: ", error);
+  process.exit(1); // exit application
 });
 
 server.listen(process.env.PORT, () => {
