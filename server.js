@@ -11,7 +11,14 @@ const server = http.createServer(app);
 app.use(express.static("public"));
 app.use(cors());
 
-app.get("/", (req, res) => res.send("Hi! I'm CDN server"));
+app.get("/", (req, res) => {
+  fs.readdir(path.resolve(__dirname, "public/images"), (err, files) => {
+    if (err) {
+      return res.status(400).json({ data: [] });
+    }
+    res.status(200).json({ data: files });
+  });
+});
 
 app.get("/images", async (req, res) => {
   const { src, width, height, quality, format, fit } = req.query;
@@ -48,7 +55,7 @@ app.get("/images", async (req, res) => {
         .toFormat(format, { quality: _quality })
         .toFile(emitToImagePath, (err, info) => {
           if (info) {
-            res.sendFile(emitToImagePath);
+            res.status(200).sendFile(emitToImagePath);
           } else {
             res.status(400).json(err);
           }
