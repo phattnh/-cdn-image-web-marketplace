@@ -58,7 +58,7 @@ app.get("/images", async (req, res) => {
         .toFormat(format, { quality: _quality })
         .toFile(emitToImagePath, (err, info) => {
           if (info) {
-            res.setHeader("Cache-Control", "max-age=60*60");
+            res.setHeader("Cache-Control", "max-age=31536000");
             res.status(200).sendFile(emitToImagePath);
           } else {
             res.status(400).json(err);
