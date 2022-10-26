@@ -22,9 +22,7 @@ app.get("/", (req, res) => {
 
 app.get("/images", async (req, res) => {
   const { src, width, height, quality, format, fit } = req.query;
-  const fileName = `${src}-${width}px-${height}px-${fit}.${format}`;
   const imagesPath = path.resolve(__dirname, "public/images");
-  const imageStaticPath = path.resolve(__dirname, `public/images/${fileName}`);
   sizeOf(`${imagesPath}/${src}.webp`, (err, dimensions) => {
     if (err) {
       return res.status(400).json({ err, message: "Image src is not valid" });
@@ -55,6 +53,7 @@ app.get("/images", async (req, res) => {
         .toFormat(format, { quality: _quality })
         .toFile(emitToImagePath, (err, info) => {
           if (info) {
+            res.setHeader("Cache-Control", "max-age=5");
             res.status(200).sendFile(emitToImagePath);
           } else {
             res.status(400).json(err);
